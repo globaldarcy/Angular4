@@ -1,0 +1,25 @@
+<h2 [appGreet]="'Hello, semlinker'" abc="semlinker">123</h2>
+<h2 *appUnless="condition">Hello, Semlinker unless!</h2>
+<ng-template #tpl>
+  Hello, Darcy
+</ng-template>
+
+<div [ngTemplateOutlet]="atpl">
+</div>
+<div [ngTemplateOutlet]="stpl"></div>
+
+<ng-template #stpl let-message="message">
+  <p>{{message}}</p>
+</ng-template>
+<ng-template #atpl let-msg="message">
+  <p>{{msg}}</p>
+</ng-template>
+<ng-template #otpl let-msg>
+  <p>{{msg}}</p>
+</ng-template>
+<div *ngTemplateOutlet="atpl; context: context">
+</div>
+<div *ngTemplateOutlet="stpl; context: context">
+</div>
+<div *ngTemplateOutlet="otpl; context: context">
+</div>

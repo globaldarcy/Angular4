@@ -1,0 +1,68 @@
+<form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm.value)">
+  <fieldset ngModelGroup="users">
+    <input type="text" required minlength="5" name="username" #userName="ngModel" [(ngModel)]="username"> {{userName.valid}}
+    <hr>
+    <p>Name控件的valid状态：{{userName.valid}} - 表示控件有效</p>
+    <p>Name控件的invalid状态：{{userName.invalid}} - 表示控件无效</p>
+    <p>Name控件的pristine状态：{{userName.pristine}} - 表示控件值未改变</p>
+    <p>Name控件的dirty状态：{{userName.dirty}} - 表示控件值已改变</p>
+    <p>Name控件的touched状态：{{userName.touched}} - 表示控件已被访问过</p>
+    <p>Name控件的untouched状态：{{userName.untouched}} - 表示控件未被访问过</p>
+    <div *ngIf="userName.errors?.required">请输入用户名</div>
+    <div *ngIf="userName.errors?.minlength">用户名的长度必须大于{{userName.errors?.minlength.requiredLength}}, 当前长度为 {{userName.errors?.minlength.actualLength}}
+    </div>
+    <input type="password" required ngModel name="password">
+  </fieldset>
+  <button type="submit">submit</button>
+  <hr> Angular版本：
+  <div *ngFor="let version of versions">
+    <input [attr.id]="version" name="version" ngModel required [value]="version" type="radio">
+    <label [attr.id]="version">{{version}}</label>
+  </div>
+
+  Angular版本：
+  <select name="version2" [ngModel]="versions[0]" required>
+    <option *ngFor="let version2 of versions" [value]="version2">
+      {{version2}}
+    </option>
+  </select>
+  <label></label>
+  <hr> {{loginForm.value | json}}
+</form>
+<p>end</p>
+<hr>
+<form (ngSubmit)="save(signupForm)" #signupForm="ngForm">
+  <div>
+    <label>
+      <span>用户名</span>
+      <input type="text" name="userName" placeholder="请输入用户名" required minlength="3" [(ngModel)]="user.userName" #userName="ngModel">
+    </label>
+    <div *ngIf="userName.touched && userName.errors?.required">
+      用户名是必填项
+    </div>
+    <div *ngIf="userName.touched && userName.errors?.minlength">
+      用户名的长度必须大于3
+    </div>
+  </div>
+  ...
+  <button type="submit">注册</button>
+</form>
+<hr>
+<form (ngSubmit)="save()" [formGroup]="signupForm">
+  <div>
+    <label>
+      <span>用户名</span>
+      <input type="text" name="userName" placeholder="请输入用户名" formControlName="userName">
+    </label>
+    <div *ngIf="signupForm.get('userName').touched &&
+        signupForm.get('userName').hasError('required')">
+      用户名是必填项
+    </div>
+    <div *ngIf="signupForm.get('userName').touched &&
+        signupForm.get('userName').hasError('minlength')">
+      用户名的长度必须大于3
+    </div>
+  </div>
+  ...
+  <button type="submit" [disabled]="signupForm.invalid">注册</button>
+</form>
